@@ -4,9 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AspNetCoreHero.EntityFrameworkCore.AuditTrail" Version="1.0.0" />
-    <PackageReference Include="AspNetCoreHero.Extensions.Caching" Version="1.1.0" />
-    <PackageReference Include="AspNetCoreHero.ThrowR" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1" />
@@ -25,6 +22,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail.csproj" />
+    <ProjectReference Include="..\..\Extensions.Caching\AspNetCoreHero.Extensions.Caching\AspNetCoreHero.Extensions.Caching.csproj" />
+    <ProjectReference Include="..\..\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Application\AspNetCoreHero.Boilerplate.Application.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Domain\AspNetCoreHero.Boilerplate.Domain.csproj" />
   </ItemGroup>

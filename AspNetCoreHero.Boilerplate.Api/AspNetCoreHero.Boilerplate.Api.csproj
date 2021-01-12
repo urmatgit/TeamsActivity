@@ -8,7 +8,6 @@
     <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AspNetCoreHero.Extensions.Logging" Version="1.0.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
@@ -23,6 +22,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Extensions.Logging\AspNetCoreHero.Extensions.Logging\AspNetCoreHero.Extensions.Logging.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Application\AspNetCoreHero.Boilerplate.Application.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure.Shared\AspNetCoreHero.Boilerplate.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure\AspNetCoreHero.Boilerplate.Infrastructure.csproj" />
