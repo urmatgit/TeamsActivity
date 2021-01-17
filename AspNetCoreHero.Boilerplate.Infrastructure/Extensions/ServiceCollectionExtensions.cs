@@ -31,6 +31,9 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Extensions
             services.AddTransient<ILogRepository, LogRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            services.AddTransient(typeof(IRepositoryAsync<>), typeof(RepositoryCacheAsync<>));
+            services.AddTransient<IInterestRepository, InterestRepository>();
+            services.AddTransient<IInterestCacheRepository, InterestCacheRepository>();
             #endregion Repositories
         }
     }
