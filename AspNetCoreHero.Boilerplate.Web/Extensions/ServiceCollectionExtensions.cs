@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.DTOs.Settings;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts;
+using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
 using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
 using AspNetCoreHero.Boilerplate.Infrastructure.Shared.Services;
 using AspNetCoreHero.Boilerplate.Web.Services;
@@ -91,6 +92,9 @@ namespace AspNetCoreHero.Boilerplate.Web.Extensions
         {
             services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
             services.Configure<CacheSettings>(configuration.GetSection("CacheSettings"));
+           
+            Caching.CacheExpirationInMinutes = configuration.GetValue<int>("CacheSettings:SlidingExpirationInMinutes");
+
             services.AddTransient<IDateTimeService, SystemDateTimeService>();
             services.AddTransient<IMailService, SMTPMailService>();
             services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();

@@ -2,7 +2,7 @@
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
 using AspNetCoreHero.Boilerplate.Infrastructure.CacheKeys;
-using AspNetCoreHero.Extensions.Caching;
+using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
 using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;

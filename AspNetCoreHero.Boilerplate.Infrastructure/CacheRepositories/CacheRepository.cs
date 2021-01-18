@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Abstractions.Repository;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.CacheRepositories;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
+using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
 using AspNetCoreHero.ThrowR;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AspNetCoreHero.Extensions.Caching;
+
 
 namespace AspNetCoreHero.Boilerplate.Infrastructure.CacheRepositories
 {

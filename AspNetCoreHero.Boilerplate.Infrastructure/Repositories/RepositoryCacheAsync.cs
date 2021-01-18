@@ -5,9 +5,10 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.Extensions.Caching;
+
 using AspNetCoreHero.Abstractions.Domain;
 using System;
+using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
 
 namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
 {
