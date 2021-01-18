@@ -29,9 +29,11 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Admin.Controllers
         {
             var model = new PermissionViewModel();
             var allPermissions = new List<RoleClaimsViewModel>();
+            allPermissions.GetPermissions(typeof(Permissions.Interests), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Brands), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Dashboard), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Products), roleId);
+
             allPermissions.GetPermissions(typeof(Permissions.Users), roleId);
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;

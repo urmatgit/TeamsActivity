@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories
 {
-   public interface IInterestRepository: IRepositoryAsync<Interest>
+   public interface IInterestRepository: IRepositoryCacheAsync<Interest>
     {
     }
 }

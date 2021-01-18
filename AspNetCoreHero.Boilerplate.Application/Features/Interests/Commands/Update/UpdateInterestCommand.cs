@@ -10,9 +10,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Upd
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Rate { get; set; }
-        public int BrandId { get; set; }
+        
 
         public class UpdateInterestCommandHandler : IRequestHandler<UpdateInterestCommand, Result<int>>
         {
@@ -36,9 +34,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Upd
                 else
                 {
                     interest.Name = command.Name ?? interest.Name;
-                    interest.Rate = (command.Rate == 0) ? interest.Rate : command.Rate;
-                    interest.Description = command.Description ?? interest.Description;
-                    interest.BrandId = (command.BrandId == 0) ? interest.BrandId : command.BrandId;
+                    
                     await _interestRepository.UpdateAsync(interest);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(interest.Id);
