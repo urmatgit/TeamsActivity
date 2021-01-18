@@ -17,5 +17,6 @@ namespace AspNetCoreHero.Boilerplate.Application.Interfaces.Contexts
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         DbSet<Product> Products { get; set; }
+        DbSet<Interest> Interests { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Interest> Interests { get; set; }
 
         public IDbConnection Connection => Database.GetDbConnection();
 
