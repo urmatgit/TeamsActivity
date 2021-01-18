@@ -10,6 +10,6 @@ namespace AspNetCoreHero.Boilerplate.Domain.Entities.Catalog
     public class Interest : BaseEntity
     {
         public string Name { get; set; }
-        public byte[] Logo { get; set; }
+        public byte[] Image { get; set; }
     }
 }

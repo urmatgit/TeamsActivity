@@ -20,4 +20,8 @@ namespace AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories
 
         Task DeleteAsync(T entity);
     }
+    public interface IRepositoryCacheAsync<T> : IRepositoryAsync<T> where T : class
+    {
+
+    }
 }

@@ -16,33 +16,17 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.CacheRepositories
     {
         private readonly IDistributedCache _distributedCache;
         private readonly IRepositoryAsync<T> _repository;
-
+        Type EntityKeyType = null;
         public CacheRepository(IDistributedCache distributedCache, IRepositoryAsync<T> Repository)
         {
             _distributedCache = distributedCache;
             _repository = Repository;
+            EntityKeyType = Type.GetType($"AspNetCoreHero.Boilerplate.Infrastructure.CacheKeys.{typeof(T).Name}CacheKeys");
         }
-        private string getKeyName(int id)
-        {
-            Type type =Type.GetType($"{typeof(T).Name}CacheKeys");
-            if (type==null)
-                Throw.Exception.IfNull($"{typeof(T).Name}CacheKeys", typeof(T).Name, "Not  Found");
-            var getKeyMethod = type.GetMethod("GetKey");
-            var result =(string)getKeyMethod.Invoke(null, new object[] { id });
-            return result;
-
-        }
-        private string getKeyListName()
-        {
-            Type type = Type.GetType($"{typeof(T).Name}CacheKeys");
-            if (type == null)
-                Throw.Exception.IfNull($"{typeof(T).Name}CacheKeys", typeof(T).Name, "Not  Found");
-            var property= type.GetProperty("ListKey");
-            return (string)property.GetValue(null, null);
-        }
+        
         public async Task<T> GetByIdAsync(int id)
         {
-            string cacheKey = getKeyName(id);// BrandCacheKeys.GetKey(id);
+            string cacheKey = _distributedCache.GetKeyByT<T>(id,EntityKeyType);// BrandCacheKeys.GetKey(id);
             var brand = await _distributedCache.GetAsync<T>(cacheKey);
             if (brand == null)
             {
@@ -55,11 +39,11 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.CacheRepositories
 
         public async Task<List<T>> GetCachedListAsync()
         {
-            string cacheKey = getKeyListName();// BrandCacheKeys.ListKey;
+            string cacheKey = _distributedCache.GetKeyListByT<T>(EntityKeyType);// getKeyListName();// BrandCacheKeys.ListKey;
             var brandList = await _distributedCache.GetAsync<List<T>>(cacheKey);
             if (brandList == null)
             {
-               var brandList1 = await _repository.GetAllAsync();
+                brandList = await _repository.GetAllAsync();
                 await _distributedCache.SetAsync(cacheKey, brandList);
             }
             return brandList;

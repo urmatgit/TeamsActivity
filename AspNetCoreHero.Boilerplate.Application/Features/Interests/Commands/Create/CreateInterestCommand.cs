@@ -11,10 +11,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Cre
     public partial class CreateInterestCommand : IRequest<Result<int>>
     {
         public string Name { get; set; }
-        public string Barcode { get; set; }
-        public string Description { get; set; }
-        public decimal Rate { get; set; }
-        public int BrandId { get; set; }
+        
     }
 
     public class CreateInterestCommandHandler : IRequestHandler<CreateInterestCommand, Result<int>>
@@ -34,7 +31,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Cre
         public async Task<Result<int>> Handle(CreateInterestCommand request, CancellationToken cancellationToken)
         {
             var interest = _mapper.Map<Interest>(request);
-            await _interestRepository.InsertAsync(interest);
+            await _interestRepository.AddAsync(interest);
             await _unitOfWork.Commit(cancellationToken);
             return Result<int>.Success(interest.Id);
         }

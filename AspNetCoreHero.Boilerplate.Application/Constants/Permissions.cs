@@ -31,6 +31,13 @@ namespace AspNetCoreHero.Boilerplate.Application.Constants
             public const string Delete = "Permissions.Products.Delete";
         }
 
+        public static class Interests
+        {
+            public const string View = "Permissions.Interests.View";
+            public const string Create = "Permissions.Interests.Create";
+            public const string Edit = "Permissions.Interests.Edit";
+            public const string Delete = "Permissions.Interests.Delete";
+        }
         public static class Users
         {
             public const string View = "Permissions.Users.View";

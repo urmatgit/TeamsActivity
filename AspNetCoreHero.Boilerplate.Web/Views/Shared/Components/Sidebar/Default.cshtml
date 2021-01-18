@@ -18,7 +18,7 @@
                         </p>
                     </a>
                 </li>
-                @if (User.IsInRole("SuperAdmin"))
+                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                 {
                     <li class="nav-header">@localizer["Admin"]</li>
                     <li is-active-route asp-area="Admin" class="nav-item has-treeview">
@@ -42,6 +42,26 @@
                                     <p>@localizer["Roles"]</p>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-header">@localizer["References"]</li>
+                    <li is-active-route asp-area="Catalog" class="nav-item has-treeview">
+                        <a is-active-route asp-area="Catalog" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                @localizer["References"]
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Catalog" asp-controller="Interest" class="nav-link">
+                                    <i class="far fa-user-circle nav-icon"></i>
+                                    <p>@localizer["Interest"]</p>
+                                </a>
+                            </li>
+                             
                         </ul>
                     </li>
                 }
