@@ -18,5 +18,6 @@ namespace AspNetCoreHero.Boilerplate.Application.Interfaces.Contexts
 
         DbSet<Product> Products { get; set; }
         DbSet<Interest> Interests { get; set; }
+        DbSet<UserInterest> UserInterests { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Contexts;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
+using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts.Configurations;
 using AspNetCoreHero.EntityFrameworkCore.AuditTrail;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -24,6 +25,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Interest> Interests { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
 
         public IDbConnection Connection => Database.GetDbConnection();
 
@@ -64,6 +66,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts
             {
                 property.SetColumnType("decimal(18,2)");
             }
+            builder.ApplyConfiguration(new UserInterestConfiguration());
             base.OnModelCreating(builder);
         }
     }
