@@ -8,5 +8,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models
         public string LastName { get; set; }
         public byte[] ProfilePicture { get; set; }
         public bool IsActive { get; set; } = false;
+        
+        public string AboutMe { get; set; }
     }
 }
