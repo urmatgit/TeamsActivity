@@ -1,4 +1,5 @@
-﻿using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
+﻿using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries;
+using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
 using AspNetCoreHero.Results;
 using AutoMapper;
@@ -12,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Create
 {
-    public class CreateUserInterestCommand:IRequest<Result>
+    public class CreateUserInterestCommand:IRequest<Result<GetUserInterestResponse>>
     {
         public string UserId { get; set; }
         public int InterestId { get; set; }
         public byte Level { get; set; }
 
     }
-    public class CreateUserInterestCommmandHandler : IRequestHandler<CreateUserInterestCommand, Result>
+    public class CreateUserInterestCommmandHandler : IRequestHandler<CreateUserInterestCommand, Result<GetUserInterestResponse>>
     {
         private readonly IUserInterestRepository _userInterestRepository;
         private readonly IMapper _mapper;
@@ -30,12 +31,12 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<Result> Handle(CreateUserInterestCommand request, CancellationToken cancellationToken)
+        public async Task<Result<GetUserInterestResponse>> Handle(CreateUserInterestCommand request, CancellationToken cancellationToken)
         {
             var userInterest = _mapper.Map<UserInterest>(request);
             await _userInterestRepository.AddAsync(userInterest);
             await _unitOfWork.Commit(cancellationToken);
-            return (Result)Result.Success();
+            return  Result<GetUserInterestResponse>.Success(_mapper.Map< GetUserInterestResponse>(userInterest));
         }
     }
 

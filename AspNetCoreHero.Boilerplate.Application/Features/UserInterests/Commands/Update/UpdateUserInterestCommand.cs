@@ -1,6 +1,8 @@
-﻿using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
+﻿using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries;
+using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
 using AspNetCoreHero.Results;
+using AutoMapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,29 +13,30 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Update
 {
-   public class UpdateUserInterestCommand: IRequest<Result>
+   public class UpdateUserInterestCommand: IRequest<Result<GetUserInterestResponse>>
     {
         public string  UserId { get; set; }
         public int InterestId { get; set; }
         public byte Level { get; set; }
     }
-    public class UpdateUserInterestCommandHandler : IRequestHandler<UpdateUserInterestCommand, Result>
+    public class UpdateUserInterestCommandHandler : IRequestHandler<UpdateUserInterestCommand, Result<GetUserInterestResponse>>
     {
         
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserInterestRepository _userInterestRepository;
-        public UpdateUserInterestCommandHandler(IUserInterestRepository userInterestRepository, IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public UpdateUserInterestCommandHandler(IUserInterestRepository userInterestRepository, IUnitOfWork unitOfWork,IMapper mapper)
         {
             _userInterestRepository = userInterestRepository;
             _unitOfWork = unitOfWork;
-
+            _mapper = mapper;
         }
-        public async Task<Result> Handle(UpdateUserInterestCommand request, CancellationToken cancellationToken)
+        public async Task<Result<GetUserInterestResponse>> Handle(UpdateUserInterestCommand request, CancellationToken cancellationToken)
         {
             var userInterest = await _userInterestRepository.GetByIdAsync(request.UserId, request.InterestId);
             if (userInterest == null)
             {
-                return (Result)Result.Fail($"User has`t current interest");
+                return  Result<GetUserInterestResponse>.Fail($"User has`t current interest");
             }
             else
             {
@@ -55,11 +58,11 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands
                     }catch (Exception er)
                     {
                         await _unitOfWork.Rollback();
-                        return (Result)Result.Fail($"Can`t update");
+                        return  Result<GetUserInterestResponse>.Fail($"Can`t update");
                     }
-                    return (Result)Result.Success();
+                    return  Result<GetUserInterestResponse>.Success(_mapper.Map< GetUserInterestResponse>(newUserInterest));
                 }
-                return (Result)Result.Fail($"Nothin data to change");
+                return Result<GetUserInterestResponse>.Fail($"Nothin data to change");
             }
         }
     }

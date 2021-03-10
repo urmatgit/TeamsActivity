@@ -33,7 +33,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
 
         public async Task<JsonResult> OnGetCreateOrEdit(int id = 0)
         {
-            var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+           // var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
 
             if (id == 0)
             {

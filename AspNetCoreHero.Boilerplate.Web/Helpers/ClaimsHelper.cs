@@ -12,6 +12,25 @@ namespace AspNetCoreHero.Boilerplate.Web.Helpers
 {
     public static class ClaimsHelper
     {
+        public static bool HasRoleAtLeastOne(this ClaimsPrincipal claimsPrincipal, params string[] roles)
+        {
+            if (!claimsPrincipal.Identity.IsAuthenticated)
+            {
+                return false;
+            }
+            bool result = false;
+
+            foreach (var role in roles)
+            {
+                if (claimsPrincipal.IsInRole(role))
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+
+        }
         public static void HasRequiredClaims(this ClaimsPrincipal claimsPrincipal, IEnumerable<string> permissions)
         {
             if (!claimsPrincipal.Identity.IsAuthenticated)

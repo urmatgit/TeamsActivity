@@ -17,7 +17,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries.
             }
 
     }
-    public class GetAllUserInterestQueryHandler : IRequestHandler<GetAllUserInterestsQuery, Result<List<GetUserInterestResponse>>{
+    public class GetAllUserInterestQueryHandler : IRequestHandler<GetAllUserInterestsQuery, Result<List<GetUserInterestResponse>>>{
         IUserInterestRepository _userInterestRepository;
         IMapper _mapper;
         public GetAllUserInterestQueryHandler(IUserInterestRepository userInterestRepository,IMapper mapper)
