@@ -37,7 +37,8 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
         {
             _dbContext.Set<T>().Remove(entity);
             await _distributedCache.RemoveAsync(_distributedCache.GetKeyListByT<T>(EntityKeyType));
-            await _distributedCache.RemoveAsync(_distributedCache.GetKeyByT<T>((entity as IBaseEntity).Id, EntityKeyType));
+            if (entity is IBaseEntity)
+                await _distributedCache.RemoveAsync(_distributedCache.GetKeyByT<T>((entity as IBaseEntity).Id, EntityKeyType));
             //return Task.CompletedTask;
         }
 
@@ -67,7 +68,8 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
         {
             _dbContext.Entry(entity).CurrentValues.SetValues(entity);
             await _distributedCache.RemoveAsync(_distributedCache.GetKeyListByT<T>(EntityKeyType));
-            await _distributedCache.RemoveAsync(_distributedCache.GetKeyByT<T>((entity as IBaseEntity).Id, EntityKeyType));
+            if (entity is IBaseEntity)
+                await _distributedCache.RemoveAsync(_distributedCache.GetKeyByT<T>((entity as IBaseEntity).Id, EntityKeyType));
            // return Task.CompletedTask;
         }
     }

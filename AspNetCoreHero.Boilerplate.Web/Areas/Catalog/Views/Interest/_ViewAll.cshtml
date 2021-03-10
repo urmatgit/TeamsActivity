@@ -1,15 +1,20 @@
-﻿@using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
+@using AspNetCoreHero.Boilerplate.Web.Helpers
 @model IEnumerable<InterestViewModel>
+
 <table id="interestTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            
+
+            @*<th>Id</th>*@
+
+            <th>@localizer["Name"]</th>
+
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded
-               || (AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
+              || (AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
             {
-                <th>Actions</th>
+                <th>@localizer["Actions"]</th>
             }
         </tr>
     </thead>
@@ -17,40 +22,62 @@
 
         @foreach (var interest in Model)
         {
-        <tr>
-            <td>
-                @interest.Id
-            </td>
-            <td>
-                @interest.Name
-            </td>
-           
-            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded
-       || (AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
-            {
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Action
-                        </button>
-                        <div class="dropdown-menu shadow animated--grow-in">
+            <tr>
+
+                @*<td>
+                    @interest.Id
+                </td>*@
+
+                <td>
+                    @interest.Name
+                </td>
+
+                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded
+     || (AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
+                {
+
+                    <td text-right">
+                        <div class="row">
                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
                             {
-                                <a onclick="jQueryModalGet('/catalog/interest/OnGetCreateOrEdit?id=@interest.Id','Edit Interest')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
+                                <a onclick="jQueryModalGet('/catalog/interest/OnGetCreateOrEdit?id=@interest.Id','Edit Interest')" class="btn btn-info text-white"> <i class="fas fa-pencil-alt"></i>@localizer["Edit"]  </a>
 
                             }
+                            
                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded)
 
                             {
                                 <form id="form_delete_@interest.Id" asp-area="Catalog" asp-controller="Interest" method="post" asp-action="OnPostDelete" asp-route-id="@interest.Id" onsubmit="return jQueryModalDelete(this)">
-                                    <a href="javascript:$('#form_delete_@interest.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Delete</a>
+                                    <a href="javascript:$('#form_delete_@interest.Id').submit();" class="btn btn-danger text-white DeleteButton" ><i class="fas fa-trash-alt"></i>@localizer["Delete"] </a>
                                 </form>
                             }
                         </div>
-                    </div>
-                </td>
-            }
-        </tr>
+                    </td>
+                    #region  dropdown menu version
+                    @*<td class="text-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu shadow animated--grow-in">
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
+                                    {
+                                        <a onclick="jQueryModalGet('/catalog/interest/OnGetCreateOrEdit?id=@interest.Id','Edit Interest')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
+
+                                    }
+                                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded)
+
+                                    {
+                                        <form id="form_delete_@interest.Id" asp-area="Catalog" asp-controller="Interest" method="post" asp-action="OnPostDelete" asp-route-id="@interest.Id" onsubmit="return jQueryModalDelete(this)">
+                                            <a href="javascript:$('#form_delete_@interest.Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i>  Delete</a>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </td>*@
+                    #endregion
+                }
+            </tr>
         }
     </tbody>
 </table>

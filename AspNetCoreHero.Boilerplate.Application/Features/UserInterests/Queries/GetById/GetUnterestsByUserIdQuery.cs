@@ -15,6 +15,11 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries.
     
     {
         public string UserId { get; set; }
+        public GetUnterestsByUserIdQuery(string userid):base()
+        {
+            UserId = userid;
+        }
+        
         public class GetUnterestsByUserIdQueryHandler : IRequestHandler<GetUnterestsByUserIdQuery, Result<List<GetUserInterestResponse>>>        {
             IUserInterestRepository _userInterestRepository;
             IMapper _mapper;
