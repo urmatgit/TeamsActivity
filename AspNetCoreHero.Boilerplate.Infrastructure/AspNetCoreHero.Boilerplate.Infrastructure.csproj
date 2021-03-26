@@ -22,9 +22,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail.csproj" />
-    <ProjectReference Include="..\..\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Application\AspNetCoreHero.Boilerplate.Application.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Domain\AspNetCoreHero.Boilerplate.Domain.csproj" />
+    <ProjectReference Include="..\packages\EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail.csproj" />
+    <ProjectReference Include="..\packages\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
   </ItemGroup>
 </Project>

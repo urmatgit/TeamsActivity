@@ -22,10 +22,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions.Logging\AspNetCoreHero.Extensions.Logging\AspNetCoreHero.Extensions.Logging.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Application\AspNetCoreHero.Boilerplate.Application.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure.Shared\AspNetCoreHero.Boilerplate.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure\AspNetCoreHero.Boilerplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\packages\Extensions.Logging\AspNetCoreHero.Extensions.Logging\AspNetCoreHero.Extensions.Logging.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Log\" />
