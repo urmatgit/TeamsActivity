@@ -45,36 +45,36 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts
             builder.HasDefaultSchema("dbo");
             builder.Entity<ApplicationUser>(entity =>
             {
-                entity.ToTable(name: "Users", "Identity");
+                entity.ToTable(name: "Users" );
             });
 
             builder.Entity<IdentityRole>(entity =>
             {
-                entity.ToTable(name: "Roles", "Identity");
+                entity.ToTable(name: "Roles" );
             });
             builder.Entity<IdentityUserRole<string>>(entity =>
             {
-                entity.ToTable("UserRoles", "Identity");
+                entity.ToTable("UserRoles" );
             });
 
             builder.Entity<IdentityUserClaim<string>>(entity =>
             {
-                entity.ToTable("UserClaims", "Identity");
+                entity.ToTable("UserClaims" );
             });
 
             builder.Entity<IdentityUserLogin<string>>(entity =>
             {
-                entity.ToTable("UserLogins", "Identity");
+                entity.ToTable("UserLogins" );
             });
 
             builder.Entity<IdentityRoleClaim<string>>(entity =>
             {
-                entity.ToTable("RoleClaims", "Identity");
+                entity.ToTable("RoleClaims" );
             });
 
             builder.Entity<IdentityUserToken<string>>(entity =>
             {
-                entity.ToTable("UserTokens", "Identity");
+                entity.ToTable("UserTokens" );
             });
         }
         public virtual async Task<int> SaveChangesAsync(string userId = null)

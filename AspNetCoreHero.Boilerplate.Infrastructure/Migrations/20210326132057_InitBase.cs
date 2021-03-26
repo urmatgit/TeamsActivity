@@ -10,9 +10,6 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
             migrationBuilder.EnsureSchema(
                 name: "dbo");
 
-            migrationBuilder.EnsureSchema(
-                name: "Identity");
-
             migrationBuilder.CreateTable(
                 name: "AuditLogs",
                 schema: "dbo",
@@ -71,7 +68,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -86,7 +83,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -147,7 +144,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "RoleClaims",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -162,7 +159,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_RoleClaims_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -170,7 +167,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserClaims",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -185,7 +182,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserClaims_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -213,7 +210,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserInterests_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -221,7 +218,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserLogins",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -235,7 +232,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserLogins_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -243,7 +240,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserRoles",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -255,14 +252,14 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -270,7 +267,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserTokens",
-                schema: "Identity",
+                schema: "dbo",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -284,7 +281,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserTokens_Users_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
+                        principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -298,13 +295,13 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
-                schema: "Identity",
+                schema: "dbo",
                 table: "RoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "Identity",
+                schema: "dbo",
                 table: "Roles",
                 column: "NormalizedName",
                 unique: true,
@@ -312,7 +309,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
-                schema: "Identity",
+                schema: "dbo",
                 table: "UserClaims",
                 column: "UserId");
 
@@ -324,25 +321,25 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLogins_UserId",
-                schema: "Identity",
+                schema: "dbo",
                 table: "UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
-                schema: "Identity",
+                schema: "dbo",
                 table: "UserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "Identity",
+                schema: "dbo",
                 table: "Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "Identity",
+                schema: "dbo",
                 table: "Users",
                 column: "NormalizedUserName",
                 unique: true,
@@ -361,11 +358,11 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoleClaims",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "UserClaims",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "UserInterests",
@@ -373,15 +370,15 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserLogins",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "UserRoles",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "UserTokens",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Brand",
@@ -393,11 +390,11 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles",
-                schema: "Identity");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Users",
-                schema: "Identity");
+                schema: "dbo");
         }
     }
 }
