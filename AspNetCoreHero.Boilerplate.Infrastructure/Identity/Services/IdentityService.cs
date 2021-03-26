@@ -5,7 +5,7 @@ using AspNetCoreHero.Boilerplate.Application.Enums;
 using AspNetCoreHero.Boilerplate.Application.Exceptions;
 using AspNetCoreHero.Boilerplate.Application.Interfaces;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Results;
 using AspNetCoreHero.ThrowR;
 using Microsoft.AspNetCore.Identity;

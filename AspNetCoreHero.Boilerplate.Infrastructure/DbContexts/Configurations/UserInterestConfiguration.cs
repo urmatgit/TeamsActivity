@@ -15,6 +15,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts.Configurations
         {
             builder.HasKey(tp => new { tp.UserId, tp.InterestId });
             builder.HasOne(i => i.Interest).WithMany(i => i.UserInterests).HasForeignKey(ui => ui.InterestId);
+            builder.HasOne(u => u.ApplicationUser).WithMany(u => u.UserInterests).HasForeignKey(ui => ui.UserId);
             
         }
     }

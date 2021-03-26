@@ -1,20 +1,82 @@
-﻿using AspNetCoreHero.EntityFrameworkCore.AuditTrail.Models;
-using AspNetCoreHero.EntityFrameworkCore.AuditTrail;
+﻿using AspNetCoreHero.Boilerplate.Application.Interfaces.Contexts;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
+using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts.Configurations;
+using AspNetCoreHero.EntityFrameworkCore.AuditTrail.Enums;
+using AspNetCoreHero.EntityFrameworkCore.AuditTrail.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCoreHero.EntityFrameworkCore.AuditTrail
+namespace AspNetCoreHero.Boilerplate.Infrastructure.DbContexts
 {
-    public abstract class AuditableContext : DbContext
+    public class AuditableIdentityContextEx: IdentityDbContext<ApplicationUser, IdentityRole, string>, IAuditableIdentityContextEx
     {
-        public AuditableContext(DbContextOptions options) : base(options)
+        public AuditableIdentityContextEx(DbContextOptions<AuditableIdentityContextEx>  options): base(options)
         {
+
         }
-
         public DbSet<Audit> AuditLogs { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Interest> Interests { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
 
+        public IDbConnection Connection => Database.GetDbConnection();
+
+        public bool HasChanges => ChangeTracker.HasChanges();
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            foreach (var property in builder.Model.GetEntityTypes()
+            .SelectMany(t => t.GetProperties())
+            .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            {
+                property.SetColumnType("decimal(18,2)");
+            }
+            builder.ApplyConfiguration(new UserInterestConfiguration());
+            base.OnModelCreating(builder);
+            builder.HasDefaultSchema("dbo");
+            builder.Entity<ApplicationUser>(entity =>
+            {
+                entity.ToTable(name: "Users", "Identity");
+            });
+
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Roles", "Identity");
+            });
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("UserRoles", "Identity");
+            });
+
+            builder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("UserClaims", "Identity");
+            });
+
+            builder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("UserLogins", "Identity");
+            });
+
+            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("RoleClaims", "Identity");
+            });
+
+            builder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("UserTokens", "Identity");
+            });
+        }
         public virtual async Task<int> SaveChangesAsync(string userId = null)
         {
             var auditEntries = OnBeforeSaveChanges(userId);
@@ -54,12 +116,12 @@ namespace AspNetCoreHero.EntityFrameworkCore.AuditTrail
                     switch (entry.State)
                     {
                         case EntityState.Added:
-                            auditEntry.AuditType = Enums.AuditType.Create;
+                            auditEntry.AuditType =  AuditType.Create;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
                             break;
 
                         case EntityState.Deleted:
-                            auditEntry.AuditType = Enums.AuditType.Delete;
+                            auditEntry.AuditType =  AuditType.Delete;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
                             break;
 
@@ -67,7 +129,7 @@ namespace AspNetCoreHero.EntityFrameworkCore.AuditTrail
                             if (property.IsModified)
                             {
                                 auditEntry.ChangedColumns.Add(propertyName);
-                                auditEntry.AuditType = Enums.AuditType.Update;
+                                auditEntry.AuditType =  AuditType.Update;
                                 auditEntry.OldValues[propertyName] = property.OriginalValue;
                                 auditEntry.NewValues[propertyName] = property.CurrentValue;
                             }

@@ -14,10 +14,10 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
 {
     public class RepositoryCacheAsync<T> : IRepositoryCacheAsync<T> where T : class
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly AuditableIdentityContextEx _dbContext;
         IDistributedCache _distributedCache;
         Type EntityKeyType = null;
-        public RepositoryCacheAsync(IDistributedCache distributedCache,ApplicationDbContext dbContext)
+        public RepositoryCacheAsync(IDistributedCache distributedCache,AuditableIdentityContextEx dbContext)
         {
             _dbContext = dbContext;
             _distributedCache = distributedCache;

@@ -3,7 +3,7 @@ using AspNetCoreHero.Boilerplate.Application.DTOs.Settings;
 using AspNetCoreHero.Boilerplate.Application.Interfaces;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Services;
 using AspNetCoreHero.Boilerplate.Infrastructure.Shared.Services;
 using AspNetCoreHero.Results;
@@ -100,21 +100,21 @@ namespace AspNetCoreHero.Boilerplate.Api.Extensions
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-                services.AddDbContext<IdentityContext>(options =>
-                    options.UseInMemoryDatabase("IdentityDb"));
-                services.AddDbContext<ApplicationDbContext>(options =>
+                //services.AddDbContext<IdentityContext>(options =>
+                //    options.UseInMemoryDatabase("IdentityDb"));
+                services.AddDbContext<AuditableIdentityContextEx>(options =>
                    options.UseInMemoryDatabase("ApplicationDb"));
             }
             else
             {
-                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection"), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
+                services.AddDbContext<AuditableIdentityContextEx>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection"), b => b.MigrationsAssembly(typeof(AuditableIdentityContextEx).Assembly.FullName)));
             }
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<IdentityContext>().AddDefaultUI().AddDefaultTokenProviders();
+            }).AddEntityFrameworkStores<AuditableIdentityContextEx>().AddDefaultUI().AddDefaultTokenProviders();
 
             #region Services
 

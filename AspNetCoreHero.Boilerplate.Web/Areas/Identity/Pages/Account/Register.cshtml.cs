@@ -1,7 +1,7 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.DTOs.Mail;
 using AspNetCoreHero.Boilerplate.Application.Enums;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

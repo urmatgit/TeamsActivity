@@ -2,7 +2,7 @@
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts;
 using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Boilerplate.Infrastructure.Shared.Services;
 using AspNetCoreHero.Boilerplate.Web.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -71,21 +71,21 @@ namespace AspNetCoreHero.Boilerplate.Web.Extensions
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-                services.AddDbContext<IdentityContext>(options =>
-                    options.UseInMemoryDatabase("IdentityDb"));
-                services.AddDbContext<ApplicationDbContext>(options =>
+                //services.AddDbContext<IdentityContext>(options =>
+                //    options.UseInMemoryDatabase("IdentityDb"));
+                services.AddDbContext<AuditableIdentityContextEx>(options =>
                     options.UseInMemoryDatabase("ApplicationDb"));
             }
             else
             {
-                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection")));
+              //  services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
+                services.AddDbContext<AuditableIdentityContextEx>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection")));
             }
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<IdentityContext>().AddDefaultUI().AddDefaultTokenProviders();
+            }).AddEntityFrameworkStores<AuditableIdentityContextEx>().AddDefaultUI().AddDefaultTokenProviders();
         }
 
         public static void AddSharedInfrastructure(this IServiceCollection services, IConfiguration configuration)

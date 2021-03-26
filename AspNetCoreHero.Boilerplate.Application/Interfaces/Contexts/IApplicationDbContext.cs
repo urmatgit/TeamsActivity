@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Interfaces.Contexts
 {
-    public interface IApplicationDbContext
+    public interface IAuditableIdentityContextEx
     {
         IDbConnection Connection { get; }
         bool HasChanges { get; }

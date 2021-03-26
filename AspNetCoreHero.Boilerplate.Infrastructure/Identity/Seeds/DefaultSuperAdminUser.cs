@@ -1,6 +1,6 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.Constants;
 using AspNetCoreHero.Boilerplate.Application.Enums;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
