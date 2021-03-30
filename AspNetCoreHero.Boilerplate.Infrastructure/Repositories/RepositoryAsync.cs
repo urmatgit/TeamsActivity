@@ -9,9 +9,9 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
 {
     public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly AuditableIdentityContextEx _dbContext;
 
-        public RepositoryAsync(ApplicationDbContext dbContext)
+        public RepositoryAsync(AuditableIdentityContextEx dbContext)
         {
             _dbContext = dbContext;
         }

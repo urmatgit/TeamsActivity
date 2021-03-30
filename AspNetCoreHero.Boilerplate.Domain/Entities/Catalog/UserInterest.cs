@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace AspNetCoreHero.Boilerplate.Domain.Entities.Catalog
     public class UserInterest
     {
         public string UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         public int InterestId { get; set; }
         public virtual Interest Interest { get; set; }
         public byte Level { get; set; }

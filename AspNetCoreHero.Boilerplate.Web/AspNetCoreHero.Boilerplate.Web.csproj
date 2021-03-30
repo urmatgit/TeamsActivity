@@ -39,6 +39,8 @@
     <ProjectReference Include="..\..\ToastNotification\AspNetCoreHero.ToastNotification\AspNetCoreHero.ToastNotification.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure.Shared\AspNetCoreHero.Boilerplate.Infrastructure.Shared.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Infrastructure\AspNetCoreHero.Boilerplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\packages\Extensions.Logging\AspNetCoreHero.Extensions.Logging\AspNetCoreHero.Extensions.Logging.csproj" />
+    <ProjectReference Include="..\packages\ToastNotification\AspNetCoreHero.ToastNotification\AspNetCoreHero.ToastNotification.csproj" />
   </ItemGroup>
 
   <ItemGroup>

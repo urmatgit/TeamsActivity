@@ -1,6 +1,6 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.Features.ActivityLog.Commands.AddLog;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
-using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Boilerplate.Web.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

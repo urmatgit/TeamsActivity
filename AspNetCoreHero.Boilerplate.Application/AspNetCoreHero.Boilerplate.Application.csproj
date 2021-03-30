@@ -20,5 +20,7 @@
     <ProjectReference Include="..\..\Results\AspNetCoreHero.Results\AspNetCoreHero.Results.csproj" />
     <ProjectReference Include="..\..\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Domain\AspNetCoreHero.Boilerplate.Domain.csproj" />
+    <ProjectReference Include="..\packages\Results\AspNetCoreHero.Results\AspNetCoreHero.Results.csproj" />
+    <ProjectReference Include="..\packages\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models;
+﻿using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Boilerplate.Web.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DbContexts\ApplicationDbContext.cs" />
+    <Compile Remove="DbContexts\AuditableIdentityContextEx.cs" />
+    <Compile Remove="DbContexts\IdentityContext.cs" />
+    <Compile Remove="Identity\Models\ApplicationUser.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
@@ -26,5 +33,10 @@
     <ProjectReference Include="..\..\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Application\AspNetCoreHero.Boilerplate.Application.csproj" />
     <ProjectReference Include="..\AspNetCoreHero.Boilerplate.Domain\AspNetCoreHero.Boilerplate.Domain.csproj" />
+    <ProjectReference Include="..\packages\EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail\AspNetCoreHero.EntityFrameworkCore.AuditTrail.csproj" />
+    <ProjectReference Include="..\packages\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Identity\Models\" />
   </ItemGroup>
 </Project>

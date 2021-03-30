@@ -13,7 +13,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
 {
     public class UserInterestRepository : RepositoryCacheAsync<UserInterest>, IUserInterestRepository
     {
-        public UserInterestRepository(IDistributedCache distributedCache, ApplicationDbContext dbContext) : base(distributedCache, dbContext)
+        public UserInterestRepository(IDistributedCache distributedCache, AuditableIdentityContextEx dbContext) : base(distributedCache, dbContext)
         {
 
         }

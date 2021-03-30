@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AspNetCoreHero.Boilerplate.Infrastructure.Identity.Models
+namespace AspNetCoreHero.Boilerplate.Domain.Entities.Identity
 {
     public class ApplicationUser : IdentityUser
     {
