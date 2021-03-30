@@ -10,7 +10,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Upd
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        
+        public string Description { get; set; }
 
         public class UpdateInterestCommandHandler : IRequestHandler<UpdateInterestCommand, Result<int>>
         {
@@ -34,7 +34,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Upd
                 else
                 {
                     interest.Name = command.Name ?? interest.Name;
-                    
+                    interest.Description = command.Description;
                     await _interestRepository.UpdateAsync(interest);
                     await _unitOfWork.Commit(cancellationToken);
                     return Result<int>.Success(interest.Id);

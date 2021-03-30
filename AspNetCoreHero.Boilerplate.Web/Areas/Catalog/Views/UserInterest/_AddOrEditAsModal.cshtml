@@ -1,0 +1,12 @@
+﻿
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
+@model UserInterestViewModel
+
+@{
+    @await Html.PartialAsync("_AddOrEdit", Model);
+}
+<div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+
+    <button type="submit" class="btn btn-default close-button" data-dismiss="modal">@localizer["Close"]</button>
+</div>

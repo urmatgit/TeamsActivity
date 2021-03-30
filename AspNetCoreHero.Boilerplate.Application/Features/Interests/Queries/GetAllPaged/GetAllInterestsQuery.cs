@@ -38,7 +38,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetA
             {
                 Id = e.Id,
                 Name = e.Name,
-              
+                Description=e.Description
             };
             var paginatedList = await _repository.Entities // Interests
                 .Select(expression)

@@ -14,10 +14,10 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Mappings
     {
         public UserInterestProfile()
         {
-            CreateMap<GetUserInterestResponse, UserInterestModel>().ReverseMap();
-            CreateMap<GetUserInterestResponse, UserInterestModel>().ReverseMap();
-            CreateMap<CreateUserInterestCommand, UserInterestModel>().ReverseMap();
-            CreateMap<UpdateUserInterestCommand, UserInterestModel>().ReverseMap();
+            CreateMap<GetUserInterestResponse, UserInterestViewModel>().ReverseMap();
+            CreateMap<GetUserInterestResponse, UserInterestViewModel>().ReverseMap();
+            CreateMap<CreateUserInterestCommand, UserInterestViewModel>().ReverseMap();
+            CreateMap<UpdateUserInterestCommand, UserInterestViewModel>().ReverseMap();
         }
     }
 }

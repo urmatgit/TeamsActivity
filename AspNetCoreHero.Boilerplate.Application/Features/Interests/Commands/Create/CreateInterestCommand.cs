@@ -11,6 +11,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Commands.Cre
     public partial class CreateInterestCommand : IRequest<Result<int>>
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         
     }
 

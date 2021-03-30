@@ -5,6 +5,7 @@ using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries.GetB
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Web.Abstractions;
 using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models;
+using AspNetCoreHero.Boilerplate.Web.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,28 +26,42 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
         // GET: UserInterestController
         public IActionResult Index()
         {
-            var model = new UserInterestModel();
-            return View();
+            var model = new UserInterestViewModel();
+            if (User.IsUserAdmins())
+                return View("AdminIndex", model);
+            return View("UserIndex",model);
         }
-        public async Task<JsonResult> LoadAll()
+        public async Task<IActionResult> LoadAll()
         {
-            return await ReturnResult();
+
+          
+
+            var response = await _mediator.Send(new GetInterestsByUserIdQuery(_authenticatedUser.UserId));
+            if (response.Succeeded)
+            {
+
+                var viewUserInterestModels = _mapper.Map<List<UserInterestViewModel>>(response.Data);
+          
+                return PartialView("_ViewAll", viewUserInterestModels);
+            }
+            return null;
         }
          
 
         // GET: UserInterestController/Create
-        public async Task<JsonResult> OnGetCreateOrEdit(string userid,int interestid)
+        public async Task<JsonResult> OnGetAddOrEdit(string userid,int interestid)
         {
             if (string.IsNullOrEmpty(userid))
             {
 
-                _notify.Error("Unknown user!");
-                return null;
+                _notify.Error($"User id is empty!");
+                var userViewModel = new UserInterestViewModel();
+                return new JsonResult(new { isValid = false, html = await _viewRenderer.RenderViewToStringAsync("_AddOrEdit", userViewModel)  }); ;
              }
             if (interestid == 0)
             {
-                var userViewModel = new UserInterestModel() { UserId= _authenticatedUser.UserId};
-                return new JsonResult(new {isValid=true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", userViewModel) });
+                var userViewModel = new UserInterestViewModel() { UserId= _authenticatedUser.UserId};
+                return new JsonResult(new {isValid=true, html = await _viewRenderer.RenderViewToStringAsync("_AddOrEdit", userViewModel) });
         }
             else
             {
@@ -57,8 +72,8 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                 });
                 if (response.Succeeded)
                 {
-                    var userinterestViewModel = _mapper.Map<UserInterestModel>(response.Data);
-                    return new JsonResult(new { isValid=true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", userinterestViewModel) });
+                    var userinterestViewModel = _mapper.Map<UserInterestViewModel>(response.Data);
+                    return new JsonResult(new { isValid=true, html = await _viewRenderer.RenderViewToStringAsync("_AddOrEdit", userinterestViewModel) });
                 }
                 return null;
 
@@ -66,11 +81,11 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
         }
         private async Task<JsonResult> ReturnResult( )
         {
-            var response = await _mediator.Send(new GetUnterestsByUserIdQuery(_authenticatedUser.UserId));
+            var response = await _mediator.Send(new GetInterestsByUserIdQuery(_authenticatedUser.UserId));
             if (response.Succeeded)
             {
 
-                var viewUserInterestModels = _mapper.Map<List<UserInterestModel>>(response.Data);
+                var viewUserInterestModels = _mapper.Map<List<UserInterestViewModel>>(response.Data);
                 var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewUserInterestModels);
                 
                 return new JsonResult(new { isValid = true, html = html });
@@ -82,7 +97,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
 
         }
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(int id, UserInterestModel userInterestModel)
+        public async Task<JsonResult> OnPostCreateOrEdit(int id, UserInterestViewModel userInterestModel)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +107,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                     var result = await _mediator.Send(createUserInterestCommand);
                     if (result.Succeeded)
                     {
-                        var viewModel = _mapper.Map<UserInterestModel>(result.Data);
+                        var viewModel = _mapper.Map<UserInterestViewModel>(result.Data);
                         _notify.Success($"Interest {viewModel.Interest?.Name} added to user");
                     }
                     else
@@ -105,7 +120,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                     var result = await _mediator.Send(updateUserInterestCommand);
                     if (result.Succeeded)
                     {
-                        var viewModel = _mapper.Map<UserInterestModel>(result.Data);
+                        var viewModel = _mapper.Map<UserInterestViewModel>(result.Data);
                         _notify.Information($"User interest {viewModel.Interest?.Name} changed");
                     }
                     return await ReturnResult();
@@ -118,13 +133,13 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             }
         }
         [HttpPost]
-        public async Task<JsonResult> OnPostDelete(int interestid)
+        public async Task<JsonResult> OnPostDelete(string userid, int interestid)
         {
-            var userinterest = await _mediator.Send(new GetUserInterestByQuery() { UserId = _authenticatedUser.UserId, InterestId = interestid });
+            var userinterest = await _mediator.Send(new GetUserInterestByQuery() { UserId =userid, InterestId = interestid });
             if (userinterest.Succeeded)
             {
-                var userInterestModel = _mapper.Map<UserInterestModel>(userinterest.Data);
-                var deleteCommand = await _mediator.Send(new DeleteUserInterestCommand { InterestId = interestid, UserId = _authenticatedUser.UserId });
+                var userInterestModel = _mapper.Map<UserInterestViewModel>(userinterest.Data);
+                var deleteCommand = await _mediator.Send(new DeleteUserInterestCommand { InterestId = interestid, UserId =userid });
                 if (deleteCommand.Succeeded)
                 {
                     _notify.Information($"Interest {userInterestModel.Interest?.Name} deleted");

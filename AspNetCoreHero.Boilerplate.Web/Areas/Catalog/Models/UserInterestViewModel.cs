@@ -2,7 +2,7 @@
 
 namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
 {
-    public class UserInterestModel
+    public class UserInterestViewModel
     {
         public string UserId { get; set; }
         public int InterestId { get; set; }
