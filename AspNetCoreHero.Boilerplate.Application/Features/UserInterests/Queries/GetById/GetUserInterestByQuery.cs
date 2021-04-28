@@ -23,8 +23,12 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries.
             public async Task<Result<GetUserInterestResponse>> Handle(GetUserInterestByQuery request, CancellationToken cancellationToken)
             {
                 var userInterest = await _userInterestRepository.GetByIdAsync(request.UserId, request.InterestId);
-                var mappedUserInterest = _mapper.Map<GetUserInterestResponse>(userInterest);
-                return Result<GetUserInterestResponse>.Success(mappedUserInterest);
+                
+                    var mappedUserInterest = _mapper.Map<GetUserInterestResponse>(userInterest);
+                    return Result<GetUserInterestResponse>.Success(mappedUserInterest);
+               
+                
+
             }
             public GetUserIntestByIdQueryHandler(IUserInterestRepository userInterestRepository, IMapper mapper)
             {

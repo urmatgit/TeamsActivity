@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Create;
+using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Edit;
 using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries;
 
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
@@ -18,8 +19,9 @@ namespace AspNetCoreHero.Boilerplate.Application.Mappings
         {
             CreateMap<CreateUserInterestCommand, UserInterest>().ReverseMap();
             CreateMap<GetUserInterestResponse, UserInterest>().ReverseMap();
-         //   CreateMap<GetAllUserInterestsResponse, UserInterest>().ReverseMap();
             
+            // CreateMap<GetAllUserInterestsResponse, UserInterest>().ReverseMap();
+
         }
     }
 }

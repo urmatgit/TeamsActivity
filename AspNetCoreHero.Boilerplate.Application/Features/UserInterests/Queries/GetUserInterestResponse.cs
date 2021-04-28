@@ -1,4 +1,5 @@
-﻿using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
+﻿using AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetAllPaged;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries
     { 
         public string UserId { get; set; }
         public int InterestId { get; set; }
-        public virtual Interest Interest { get; set; }
+        public virtual GetAllInterestsResponse Interest { get; set; }
         public byte Level { get; set; }
     }
 }

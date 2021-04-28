@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetAllCached
 {
-    public class GetAllInterestsCachedQuery : IRequest<Result<List<GetAllInterestsCachedResponse>>>
+    public class GetAllInterestsCachedQuery : IRequest<Result<List<InterestsCachedResponse>>>
     {
         public GetAllInterestsCachedQuery()
         {
         }
     }
 
-    public class GetAllInterestsCachedQueryHandler : IRequestHandler<GetAllInterestsCachedQuery, Result<List<GetAllInterestsCachedResponse>>>
+    public class GetAllInterestsCachedQueryHandler : IRequestHandler<GetAllInterestsCachedQuery, Result<List<InterestsCachedResponse>>>
     {
         private readonly IInterestCacheRepository _interestCache;
         private readonly IMapper _mapper;
@@ -26,11 +26,11 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetA
             _mapper = mapper;
         }
 
-        public async Task<Result<List<GetAllInterestsCachedResponse>>> Handle(GetAllInterestsCachedQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<InterestsCachedResponse>>> Handle(GetAllInterestsCachedQuery request, CancellationToken cancellationToken)
         {
             var interestList = await _interestCache.GetCachedListAsync();
-            var mappedInterests = _mapper.Map<List<GetAllInterestsCachedResponse>>(interestList);
-            return Result<List<GetAllInterestsCachedResponse>>.Success(mappedInterests);
+            var mappedInterests = _mapper.Map<List<InterestsCachedResponse>>(interestList);
+            return Result<List<InterestsCachedResponse>>.Success(mappedInterests);
         }
     }
 }

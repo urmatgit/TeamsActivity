@@ -38,16 +38,16 @@
 
                     <td text-right">
                         <div class="row">
-                            @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
+                            @*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Edit)).Result.Succeeded)
                             {
                                 <a onclick="jQueryModalGet('/catalog/userinterest/OnGetCreateOrEdit?userid=@interest.UserId&interestid=@interest.InterestId', 'Edit Interest')" class="btn btn-info text-white"> <i class="fas fa-pencil-alt"></i>@localizer["Edit"]  </a>
 
-                            }
+                            }*@
                             
                             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Interests.Delete)).Result.Succeeded)
 
                             {
-                                <form id="form_delete_@interest.UserId@interest.InterestId" asp-area="Catalog" asp-controller="Interest" method="post" asp-action="OnPostDelete" asp-route-userid="@interest.UserId" asp-route-interestid="@interest.InterestId" onsubmit="return jQueryModalDelete(this)">
+                                <form id="form_delete_@interest.UserId@interest.InterestId" asp-area="Catalog" asp-controller="UserInterest" method="post" asp-action="OnPostDelete" asp-route-userid="@interest.UserId" asp-route-interestid="@interest.InterestId" onsubmit="return jQueryModalDelete(this)">
                                     <a href="javascript:$('#form_delete_@interest.UserId@interest.InterestId').submit();" class="btn btn-danger text-white DeleteButton" ><i class="fas fa-trash-alt"></i>@localizer["Delete"] </a>
                                 </form>
                             }

@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models.UserInterestsCheckabelViewModel
+<link rel="stylesheet" href="~/lib/iCheck/skins/square/green.css">
+<script src="~/lib/iCheck/icheck.js">
+
+</script>
+<h3>@Model.UserName  @localizer["interest list"]</h3>
+<div class="form-check m-1" id="checklist">
+    <ul>
+        @for (int i = 0; i < @Model.Interestes.Count; i++)
+        {
+        <li>
+            <input asp-for="@Model.Interestes[i].Check" type="checkbox" />
+            <label asp-for="@Model.Interestes[i].Check">@Model.Interestes[i].Name</label>
+            <input type="hidden" asp-for="@Model.Interestes[i].Id" />
+        </li>
+        }
+
+    </ul>
+</div>
+        <script>
+            $(document).ready(function () {
+                $('#checklist :input').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                    increaseArea: '20%' // optional
+                });
+            });
+        </script>
+        @*<button type="submit" class="btn btn-success" value="Submit">@localizer["Save"]</button>*@
+

@@ -2,6 +2,7 @@ using AspNetCoreHero.Boilerplate.Application.Extensions;
 using AspNetCoreHero.Boilerplate.Infrastructure.Extensions;
 using AspNetCoreHero.Boilerplate.Web.Abstractions;
 using AspNetCoreHero.Boilerplate.Web.Extensions;
+using AspNetCoreHero.Boilerplate.Web.Middlewares;
 using AspNetCoreHero.Boilerplate.Web.Permission;
 using AspNetCoreHero.Boilerplate.Web.Services;
 using AspNetCoreHero.ToastNotification;
@@ -72,6 +73,7 @@ namespace AspNetCoreHero.Boilerplate.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseNotyf();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

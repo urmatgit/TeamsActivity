@@ -18,6 +18,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Mappings
             CreateMap<GetUserInterestResponse, UserInterestViewModel>().ReverseMap();
             CreateMap<CreateUserInterestCommand, UserInterestViewModel>().ReverseMap();
             CreateMap<UpdateUserInterestCommand, UserInterestViewModel>().ReverseMap();
+            CreateMap<InterestCheckedCachedResponse, CheckableInterestViewModel>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
     ViewData["Title"] = localizer["User interests"];
     ViewData["Caption"] = localizer["Manage User interests here"];
 }
@@ -8,15 +9,15 @@
     <div class="col-sm-12" style="padding:20px">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Users.Edit)).Result.Succeeded)
         {
-            <a onclick="jQueryModalGet('/catalog/userinterest/OnGetAddOrEdit','Edit User interest')" class="btn bg-success">
-                <i class="fa fa-plus-square"></i> Create
+            <a onclick="jQueryModalGet('/catalog/userinterest/GetUserInterestEdit','Edit User interest')" class="btn bg-success">
+                <i class="fa fa-plus-square"></i> @localizer["Edit"]
             </a>
         }
 
-        <a id="reload" class="btn btn-primary text-white">
-            <i class="fa fas fa-bolt"></i>
-            Reload
-        </a>
+    <a id="reload" class="btn btn-primary text-white">
+        <i class="fa fas fa-bolt"></i>
+                @localizer["Reload"]
+    </a>
     </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>

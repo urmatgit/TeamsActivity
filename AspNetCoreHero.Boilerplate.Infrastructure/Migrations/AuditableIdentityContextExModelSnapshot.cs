@@ -60,6 +60,9 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 

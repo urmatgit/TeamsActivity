@@ -1,4 +1,5 @@
-﻿using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries;
+﻿using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Create;
+using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Domain.Entities.Catalog;
 using AspNetCoreHero.Results;
@@ -36,7 +37,10 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands
             var userInterest = await _userInterestRepository.GetByIdAsync(request.UserId, request.InterestId);
             if (userInterest == null)
             {
-                return  Result<GetUserInterestResponse>.Fail($"User has`t current interest");
+                return Result<GetUserInterestResponse>.Fail("Interest not found!");
+                //var createCommand = new CreateUserInterestCommmandHandler(
+                //    _userInterestRepository, _unitOfWork, _mapper);
+                //return await createCommand.Handle(new CreateUserInterestCommand() { UserId = request.UserId, InterestId = request.InterestId }, cancellationToken);    // Result<GetUserInterestResponse>.Fail($"User has`t current interest");
             }
             else
             {
@@ -62,7 +66,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands
                     }
                     return  Result<GetUserInterestResponse>.Success(_mapper.Map< GetUserInterestResponse>(newUserInterest));
                 }
-                return Result<GetUserInterestResponse>.Fail($"Nothin data to change");
+                return Result<GetUserInterestResponse>.Success(_mapper.Map<GetUserInterestResponse>(userInterest));
             }
         }
     }

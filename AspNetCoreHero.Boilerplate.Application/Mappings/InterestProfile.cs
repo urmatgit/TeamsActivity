@@ -13,8 +13,9 @@ namespace AspNetCoreHero.Boilerplate.Application.Mappings
         {
             CreateMap<CreateInterestCommand, Interest>().ReverseMap();
             CreateMap<GetInterestByIdResponse, Interest>().ReverseMap();
-            CreateMap<GetAllInterestsCachedResponse, Interest>().ReverseMap();
+            CreateMap<InterestsCachedResponse, Interest>().ReverseMap();
             CreateMap<GetAllInterestsResponse, Interest>().ReverseMap();
+            CreateMap<InterestCheckedCachedResponse, Interest>().ReverseMap();
         }
     }
 }

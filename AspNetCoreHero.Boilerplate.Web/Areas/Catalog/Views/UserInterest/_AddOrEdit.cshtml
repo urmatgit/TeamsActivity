@@ -1,6 +1,10 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
-@model UserInterestViewModel
-<div class="card">
-
-</div>
+@model UserInterestsCheckabelViewModel
+<form asp-controller="UserInterest" method="post" asp-action="GetUserInterestEdit"   onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+    @await Component.InvokeAsync("InterestCheckList", new  {model=Model })
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancel</button>
+    </div>
+</form>    

@@ -20,7 +20,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
         public async Task<UserInterest> GetByIdAsync(string userid, int interestid)
         {
              
-            return await Entities.Include(e => e.Interest).SingleAsync(ui => ui.UserId == userid && ui.InterestId == interestid);    
+            return await Entities.Include(e => e.Interest).SingleOrDefaultAsync(ui => ui.UserId == userid && ui.InterestId == interestid);    
         }
         /// <summary>
         /// Get interest by User id
