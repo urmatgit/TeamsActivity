@@ -11,20 +11,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetAllCached;
 
-namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Component.InterestCheckList
+namespace AspNetCoreHero.Boilerplate.Web.Views.Shared.Components.InterestCheckList
 {
     public class InterestCheckList: ViewComponent
     {
-        private readonly IAuthenticatedUserService _authenticatedUser;
-        private IMediator _mediatorInstance;
-        private IMapper _mapperInstance;
-        protected IMediator _mediator => _mediatorInstance ??= HttpContext.RequestServices.GetService<IMediator>();
-        protected IMapper _mapper => _mapperInstance ??= HttpContext.RequestServices.GetService<IMapper>();
-        public InterestCheckList(IAuthenticatedUserService authenticatedUser )
-        {
-            _authenticatedUser = authenticatedUser;
-         
-        }
+       
+        
         public async Task<IViewComponentResult> InvokeAsync(UserInterestsCheckabelViewModel model )
         {
             

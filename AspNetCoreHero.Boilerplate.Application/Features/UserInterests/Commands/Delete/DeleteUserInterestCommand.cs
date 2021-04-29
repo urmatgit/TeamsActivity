@@ -27,9 +27,10 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands
         public async Task<Result> Handle(DeleteUserInterestCommand request, CancellationToken cancellationToken)
         {
             var userinterest = await _userInterestRepository.GetByIdAsync(request.UserId, request.InterestId);
+            string interestName = userinterest?.Interest?.Name;
             await _userInterestRepository.DeleteAsync(userinterest);
             await _unitOfWork.Commit(cancellationToken);
-            return (Result)Result.Success();
+            return (Result)Result.Success(interestName);
         }
     }
 }

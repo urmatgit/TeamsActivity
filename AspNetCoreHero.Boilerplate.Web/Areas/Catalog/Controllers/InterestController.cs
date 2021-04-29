@@ -124,7 +124,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             var deleteCommand = await _mediator.Send(new DeleteInterestCommand { Id = id });
             if (deleteCommand.Succeeded)
             {
-                _notify.Information($"Interest with Id {id} Deleted.");
+                _notify.Information($"Interest with Id {deleteCommand.Data} Deleted.");
                 var response = await _mediator.Send(new GetAllInterestsCachedQuery());
                 if (response.Succeeded)
                 {

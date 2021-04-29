@@ -4,13 +4,13 @@
 @using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
 @using AspNetCoreHero.Boilerplate.Web.Helpers
 @model UserInterestViewModel
-@if (User.IsUserAdmins())
+@*@if (User.IsUserAdmins())
 {
     ViewData["Title"] = localizer["User interests"];
     ViewData["Caption"] = localizer["Manage User interests here"];
     @await Html.PartialAsync("AdminIndex",Model);
 }
 else
-{
+{*@
     @await Html.PartialAsync("UserIndex",Model);
-}
+@*}*@

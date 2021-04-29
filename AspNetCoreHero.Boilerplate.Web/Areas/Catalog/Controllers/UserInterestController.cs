@@ -30,9 +30,9 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
         // GET: UserInterestController
         public IActionResult Index()
         {
-            var model = new UserInterestViewModel();
-            if (User.IsUserAdmins())
-                return View("AdminIndex", model);
+            var model = GetUserInterestListModel();
+            //if (User.IsUserAdmins())
+            //    return View("AdminIndex", model);
             return View("UserIndex",model);
         }
         public async Task<IActionResult> LoadAll()
@@ -208,14 +208,12 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
         [HttpPost]
         public async Task<JsonResult> OnPostDelete(string userid, int interestid)
         {
-            var userinterest = await _mediator.Send(new GetUserInterestByQuery() { UserId =userid, InterestId = interestid });
-            if (userinterest.Succeeded)
-            {
-                var userInterestModel = _mapper.Map<UserInterestViewModel>(userinterest.Data);
+            
+              
                 var deleteCommand = await _mediator.Send(new DeleteUserInterestCommand { InterestId = interestid, UserId =userid });
                 if (deleteCommand.Succeeded)
                 {
-                    _notify.Information($"Interest {userInterestModel.Interest?.Name} deleted");
+                    _notify.Information($"Interest {deleteCommand.Message} deleted");
                     return await ReturnResult();
                 }
                 else
@@ -224,8 +222,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                     return null;
 
                 }
-            }
-            _notify.Error(userinterest.Message);
+            
             return null;
         }
               

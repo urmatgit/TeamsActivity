@@ -1,7 +1,61 @@
-﻿@using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
-@model UserInterestViewModel
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    ViewData["Title"] = localizer["User interests"];
+    ViewData["Caption"] = localizer["Manage User interests here"];
+}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models.UserInterestsCheckabelViewModel
 
-<div>
+<div class="card">
 
-    <p> This is User index</p>
+    <div id="viewAll" class="card-body table-responsive">
+        <form asp-controller="UserInterest" method="post" asp-action="GetUserInterestEdit" asp-route-id="@Model.UserId" class="d-inline">
+            <input asp-for="@Model.UserId" type="hidden" />
+            <table class="table table-striped" id="userInterests">
+                @*<thead>
+                    <tr>
+                        <th>
+                            @localizer["Name"]
+                        </th>
+                        <th>
+                            @localizer["Status"]
+                        </th>
+                    </tr>
+                </thead>*@
+                <tbody>
+
+                    @for (int i = 0; i < Model.Interestes.Count(); i++)
+                    {
+                        <tr>
+                            <td>
+                                <input asp-for="@Model.Interestes[i].Name" type="hidden" />
+                                @Model.Interestes[i].Name
+                            </td>
+                            <td>
+                                <div class="form-check m-1">
+                                    <input asp-for="@Model.Interestes[i].Check" class="form-check-input" />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="col-sm-12" style=" padding: 20px 20px 0px 0px">
+                <button type="submit" id="save" class="btn bg-success">
+                    <i class="fa fa-check"></i>
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#userInterests").DataTable();
+
+    </script>
+}

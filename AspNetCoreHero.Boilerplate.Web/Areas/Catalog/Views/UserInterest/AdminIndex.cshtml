@@ -4,7 +4,7 @@
     ViewData["Caption"] = localizer["Manage User interests here"];
 }
 @using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
-@model UserInterestViewModel
+@model AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models.UserInterestsCheckabelViewModel
 <div class="card">
     <div class="col-sm-12" style="padding:20px">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Users.Edit)).Result.Succeeded)
@@ -14,10 +14,10 @@
             </a>
         }
 
-    <a id="reload" class="btn btn-primary text-white">
-        <i class="fa fas fa-bolt"></i>
-                @localizer["Reload"]
-    </a>
+        <a id="reload" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            @localizer["Reload"]
+        </a>
     </div>
     <div id="viewAll" class="card-body table-responsive">
     </div>
