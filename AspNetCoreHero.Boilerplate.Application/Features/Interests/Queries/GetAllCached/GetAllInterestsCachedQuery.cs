@@ -2,6 +2,7 @@
 using AspNetCoreHero.Results;
 using AutoMapper;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,9 +29,16 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Interests.Queries.GetA
 
         public async Task<Result<List<InterestsCachedResponse>>> Handle(GetAllInterestsCachedQuery request, CancellationToken cancellationToken)
         {
-            var interestList = await _interestCache.GetCachedListAsync();
-            var mappedInterests = _mapper.Map<List<InterestsCachedResponse>>(interestList);
-            return Result<List<InterestsCachedResponse>>.Success(mappedInterests);
+            try
+            {
+                var interestList = await _interestCache.GetCachedListAsync();
+                var mappedInterests = _mapper.Map<List<InterestsCachedResponse>>(interestList);
+                return Result<List<InterestsCachedResponse>>.Success(mappedInterests);
+            }
+            catch (Exception er)
+            {
+                return Result<List<InterestsCachedResponse>>.Fail(er.Message);
+            }
         }
     }
 }

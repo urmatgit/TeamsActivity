@@ -6,10 +6,12 @@ using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Edi
 using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Commands.Update;
 using AspNetCoreHero.Boilerplate.Application.Features.UserInterests.Queries.GetById;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
+using AspNetCoreHero.Boilerplate.Domain.Entities.Identity;
 using AspNetCoreHero.Boilerplate.Web.Abstractions;
 using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models;
 using AspNetCoreHero.Boilerplate.Web.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,16 +25,19 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
     public class UserInterestController : BaseController<UserInterestController>
     {
         private readonly IAuthenticatedUserService _authenticatedUser;
-        public UserInterestController( IAuthenticatedUserService authenticatedUser)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserInterestController(UserManager<ApplicationUser> userManager, IAuthenticatedUserService authenticatedUser)
         {
             _authenticatedUser = authenticatedUser;
+            _userManager = userManager;
         }
         // GET: UserInterestController
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string userId = "")
         {
-            var model = GetUserInterestListModel();
-            //if (User.IsUserAdmins())
-            //    return View("AdminIndex", model);
+            if (!string.IsNullOrEmpty(userId) && !User.IsUserAdmins())
+                userId = "";
+            var model = await GetUserInterestListModel(userId);
+            
             return View("UserIndex",model);
         }
         public async Task<IActionResult> LoadAll()
@@ -51,7 +56,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             return null;
         }
         [HttpPost]
-        public async Task<JsonResult> GetUserInterestEdit( UserInterestsCheckabelViewModel userinterests)
+        public async Task<IActionResult> GetUserInterestEdit(string userid, UserInterestsCheckabelViewModel userinterests)
         {
             if (ModelState.IsValid)
             {
@@ -74,40 +79,31 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                
 
             }
-            else
-            {
-                userinterests.UserId = _authenticatedUser.UserId;
-                userinterests.UserName = _authenticatedUser.Username;
-                var html = await _viewRenderer.RenderViewToStringAsync("_AddOrEdit", userinterests);
-                return new JsonResult(new { isValid = false, html = html });
-            }
-            return await ReturnResult();
+             
+            return RedirectToAction("Index");
         }
-        private  async Task<UserInterestsCheckabelViewModel> GetUserInterestListModel()
+        private  async Task<UserInterestsCheckabelViewModel> GetUserInterestListModel(string userid="")
         {
-            var response = await _mediator.Send(new GetInterestsByUserIdQuery(_authenticatedUser.UserId));
-            var responseInterest = await _mediator.Send(new GetAllInterestsQuery(0,0));
-            var allInterstes = _mapper.Map<List<InterestViewModel>>(responseInterest.Data);
+            if (string.IsNullOrEmpty(userid))
+            {
+                userid = _authenticatedUser.UserId;
+            }
+            var response = await _mediator.Send(new GetUserAllInterestCheckedQuery(userid));
+
+            
             var model = new UserInterestsCheckabelViewModel();
             if (response.Succeeded)
             {
 
-                var viewUserInterestModels = _mapper.Map<List<UserInterestViewModel>>(response.Data);
 
-                List<CheckableInterestViewModel> checkableInterestViewModels = new List<CheckableInterestViewModel>();
-                foreach (var interest in allInterstes)
+
+                model.UserId = userid;//  _authenticatedUser.UserId;
+                if (userid!=_authenticatedUser.UserId)
                 {
-                    if (viewUserInterestModels.Any(vm => vm.InterestId == interest.Id))
-
-                        checkableInterestViewModels.Add(CheckableInterestViewModel.Create(interest, true));
-                    else
-                        checkableInterestViewModels.Add(CheckableInterestViewModel.Create(interest, false));
-
+                    var user=_mediator.Send(new )
                 }
-
-                model.UserId = _authenticatedUser.UserId;
                 model.UserName = _authenticatedUser.Username;
-                model.Interestes = checkableInterestViewModels;
+                model.Interestes =_mapper.Map<List<CheckableInterestViewModel>>(response.Data);
 
 
             }

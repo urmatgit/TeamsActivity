@@ -85,6 +85,9 @@
                             <a style='margin-right:16px' asp-controller="UserRole" asp-action="Index" asp-route-userId="@user.Id" class="dropdown-item">
                                 <i class="fas fa-wrench"></i> @localizer["Manage Roles"]
                             </a>
+                            <a style='margin-right:16px'  asp-area="Catalog" asp-controller="UserInterest" asp-action="Index" asp-route-userId="@user.Id" class="dropdown-item">
+                                <i class="fas fa-wrench"></i> @localizer["Manage user interest"]
+                            </a>
                         </div>
                     </div>
                 </td>
