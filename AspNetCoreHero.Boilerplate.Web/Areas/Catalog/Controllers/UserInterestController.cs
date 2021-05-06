@@ -98,11 +98,9 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
 
 
                 model.UserId = userid;//  _authenticatedUser.UserId;
-                if (userid!=_authenticatedUser.UserId)
-                {
-                    var user=_mediator.Send(new )
-                }
-                model.UserName = _authenticatedUser.Username;
+                
+                    var user = await _userManager.FindByIdAsync(userid);
+                    model.UserName = $"{user?.FirstName} {user?.LastName }";
                 model.Interestes =_mapper.Map<List<CheckableInterestViewModel>>(response.Data);
 
 
