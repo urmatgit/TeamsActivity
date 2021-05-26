@@ -1,7 +1,9 @@
-﻿using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
+﻿using AspNetCoreHero.Abstractions.Domain;
+using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Application.Interfaces.Shared;
 using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts;
 using System;
+using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +14,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
         private readonly IAuthenticatedUserService _authenticatedUserService;
         private readonly AuditableIdentityContextEx _dbContext;
         private bool disposed;
-
+        private Hashtable _repositories;
         public UnitOfWork(AuditableIdentityContextEx dbContext, IAuthenticatedUserService authenticatedUserService)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
@@ -48,6 +50,24 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
             }
             //dispose unmanaged resources
             disposed = true;
+        }
+        public IRepositoryAsync<TEntity> Repository<TEntity>() where TEntity : AuditableEntity
+        {
+            if (_repositories == null)
+                _repositories = new Hashtable();
+
+            var type = typeof(TEntity).Name;
+
+            if (!_repositories.ContainsKey(type))
+            {
+                var repositoryType = typeof(RepositoryAsync<>);
+
+                var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _dbContext);
+
+                _repositories.Add(type, repositoryInstance);
+            }
+
+            return (IRepositoryAsync<TEntity>)_repositories[type];
         }
     }
 }

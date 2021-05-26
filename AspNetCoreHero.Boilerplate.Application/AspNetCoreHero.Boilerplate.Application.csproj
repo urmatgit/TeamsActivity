@@ -25,4 +25,7 @@
     <ProjectReference Include="..\packages\Results\AspNetCoreHero.Results\AspNetCoreHero.Results.csproj" />
     <ProjectReference Include="..\packages\ThrowR\AspNetCoreHero.ThrowR\AspNetCoreHero.ThrowR.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Brands\Queries\GetAllPaged\" />
+  </ItemGroup>
 </Project>

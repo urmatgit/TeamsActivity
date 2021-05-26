@@ -1,9 +1,11 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.Constants;
 using AspNetCoreHero.Boilerplate.Application.Features.Brands.Queries.GetAllCached;
+
 using AspNetCoreHero.Boilerplate.Application.Features.Products.Commands.Create;
 using AspNetCoreHero.Boilerplate.Application.Features.Products.Commands.Delete;
 using AspNetCoreHero.Boilerplate.Application.Features.Products.Commands.Update;
 using AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAllCached;
+using AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAllPaged;
 using AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetById;
 using AspNetCoreHero.Boilerplate.Web.Abstractions;
 using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,14 +29,50 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             var model = new ProductViewModel();
             return View(model);
         }
-
+        public IActionResult IndexEx()
+        {
+            //var model = new ProductViewModel();
+            return View("IndexEx");
+        }
+        [Authorize(Policy = Permissions.Products.View)]
+        [HttpPost]
+        public async Task<IActionResult> GetProduct()
+        {
+            try
+            {
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                
+                var response = await _mediator.Send(new GetAllProductsQueryEx(skip, pageSize, searchValue));
+                if (response.Succeeded)
+                {
+                    var viewModel = response.Data;
+                    var jsonData = new { draw = draw, recordsFiltered = response.TotalCount, recordsTotal = response.TotalCount, data = viewModel };
+                    return Ok(jsonData);
+                }
+            }catch (Exception er)
+            {
+                throw;
+            }
+            return null;
+        }
+        [HttpGet]
         public async Task<IActionResult> LoadAll()
         {
+            //return PartialView("_ViewAllServerSide", null);
+
             var response = await _mediator.Send(new GetAllProductsCachedQuery());
             if (response.Succeeded)
             {
-                var viewModel = _mapper.Map<List<ProductViewModel>>(response.Data);
-                return PartialView("_ViewAll", viewModel);
+                //var viewModel = _mapper.Map<List<ProductViewModel>>(response.Data);
+                return PartialView("_ViewAll", response.Data);
             }
             return null;
         }
@@ -125,11 +164,37 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             if (deleteCommand.Succeeded)
             {
                 _notify.Information($"Product with Id {id} Deleted.");
+              
+                var response = await _mediator.Send(new GetAllProductsCachedQuery());
+                if (response.Succeeded)
+                {
+                    
+                    return new JsonResult(new { isValid = true  });
+                }
+                else
+                {
+                    _notify.Error(response.Message);
+                    return null;
+                }
+            }
+            else
+            {
+                _notify.Error(deleteCommand.Message);
+                return null;
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> OnPostDeleteEx(int id)
+        {
+            var deleteCommand = await _mediator.Send(new DeleteProductCommand { Id = id });
+            if (deleteCommand.Succeeded)
+            {
+                _notify.Information($"Product with Id {id} Deleted.");
                 var response = await _mediator.Send(new GetAllProductsCachedQuery());
                 if (response.Succeeded)
                 {
                     var viewModel = _mapper.Map<List<ProductViewModel>>(response.Data);
-                    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                    var html = await _viewRenderer.RenderViewToStringAsync("IndexEx", viewModel);
                     return new JsonResult(new { isValid = true, html = html });
                 }
                 else

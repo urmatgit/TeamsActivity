@@ -80,4 +80,32 @@
         //prevent default form submit event
         return false;
     }
+    jQueryModalDeleteEx=(id1,table) =>{
+        if (confirm('Are you sure to delete this record ?')) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "/catalog/product/OnPostDeleteEx/" + id1,
+                    
+                    
+                    processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+
+                            var i = table.parentNode.parentNode.rowIndex;
+                            document.getElementById("productTable1").deleteRow(i);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            } catch (ex) {
+                console.log(ex)
+            }
+        }
+
+        //prevent default form submit event
+        return false;
+    }
 });
