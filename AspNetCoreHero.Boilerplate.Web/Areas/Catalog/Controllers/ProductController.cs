@@ -157,6 +157,85 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             }
         }
 
+        public async Task<JsonResult> OnGetCreateOrEditEx(int id = 0)
+        {
+            var brandsResponse = await _mediator.Send(new GetAllBrandsCachedQuery());
+
+            if (id == 0)
+            {
+                var productViewModel = new ProductViewModel();
+                if (brandsResponse.Succeeded)
+                {
+                    var brandViewModel = _mapper.Map<List<BrandViewModel>>(brandsResponse.Data);
+                    productViewModel.Brands = new SelectList(brandViewModel, nameof(BrandViewModel.Id), nameof(BrandViewModel.Name), null, null);
+                }
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", productViewModel) });
+            }
+            else
+            {
+                var response = await _mediator.Send(new GetProductByIdQuery() { Id = id });
+                if (response.Succeeded)
+                {
+                    var productViewModel = _mapper.Map<ProductViewModel>(response.Data);
+                    if (brandsResponse.Succeeded)
+                    {
+                        var brandViewModel = _mapper.Map<List<BrandViewModel>>(brandsResponse.Data);
+                        productViewModel.Brands = new SelectList(brandViewModel, nameof(BrandViewModel.Id), nameof(BrandViewModel.Name), null, null);
+                    }
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", productViewModel) });
+                }
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> OnPostCreateOrEditEx(int id, ProductViewModel product)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == 0)
+                {
+                    var createProductCommand = _mapper.Map<CreateProductCommand>(product);
+                    var result = await _mediator.Send(createProductCommand);
+                    if (result.Succeeded)
+                    {
+                        id = result.Data;
+                        _notify.Success($"Product with ID {result.Data} Created.");
+                    }
+                    else _notify.Error(result.Message);
+                }
+                else
+                {
+                    var updateProductCommand = _mapper.Map<UpdateProductCommand>(product);
+                    var result = await _mediator.Send(updateProductCommand);
+                    if (result.Succeeded) _notify.Information($"Product with ID {result.Data} Updated.");
+                }
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    var image = file.OptimizeImageSize(700, 700);
+                    await _mediator.Send(new UpdateProductImageCommand() { Id = id, Image = image });
+                }
+                return new JsonResult(new { isValid = true, row = product });
+                //var response = await _mediator.Send(new GetAllProductsCachedQuery());
+                //if (response.Succeeded)
+                //{
+                //    var viewModel = _mapper.Map<List<ProductViewModel>>(response.Data);
+                //    var html = await _viewRenderer.RenderViewToStringAsync("_ViewAll", viewModel);
+                //    return new JsonResult(new { isValid = true, html = html });
+                //}
+                //else
+                //{
+                //    _notify.Error(response.Message);
+                //    return null;
+                //}
+            }
+            else
+            {
+                var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", product);
+                return new JsonResult(new { isValid = false, html = html });
+            }
+        }
         [HttpPost]
         public async Task<JsonResult> OnPostDelete(int id)
         {

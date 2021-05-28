@@ -7,7 +7,7 @@
     <div class="col-sm-12" style="padding:20px">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Products.Create)).Result.Succeeded)
         {
-            <a onclick="jQueryModalGet('/catalog/product/OnGetCreateOrEdit','Create Product')" class="btn bg-success">
+            <a onclick="jQueryModalGet('/catalog/product/OnGetCreateOrEditEx','Create Product')" class="btn bg-success">
                 <i class="fa fa-plus-square"></i> Create
             </a>
         }
@@ -78,7 +78,7 @@
                 });
                 $("#productTable1").on('click', 'a.editor_edit', function () {
                     var data = table.row($(this).parents('tr')).data();
-                    var url = "/catalog/product/OnGetCreateOrEdit?id=" + data.id;
+                    var url = "/catalog/product/OnGetCreateOrEditEx?id=" + data.id;
                     jQueryModalGet(url, 'Edit Product');
                 });
 
