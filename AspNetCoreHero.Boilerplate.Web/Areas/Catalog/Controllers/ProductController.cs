@@ -50,7 +50,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
                 
-                var response = await _mediator.Send(new GetAllProductsQueryEx(skip, pageSize, searchValue));
+                var response = await _mediator.Send(new GetAllProductsWithSort(skip, pageSize, searchValue,sortColumn,sortColumnDirection));
                 if (response.Succeeded)
                 {
                     var viewModel = response.Data;

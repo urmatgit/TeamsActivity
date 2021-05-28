@@ -2,8 +2,10 @@
 using AspNetCoreHero.Results;
 using AspNetCoreHero.ThrowR;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Extensions
@@ -30,6 +32,46 @@ namespace AspNetCoreHero.Boilerplate.Application.Extensions
                 .Aggregate(queryableResultWithIncludes,
                     (current, include) => current.Include(include));
             return secondaryResult.Where(spec.Criteria);
+        }
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string columnName, bool isAscending = true)
+        {
+            if (String.IsNullOrEmpty(columnName))
+            {
+                return source;
+            }
+
+            ParameterExpression parameter = Expression.Parameter(source.ElementType, "");
+
+            MemberExpression property = Expression.Property(parameter, columnName);
+            LambdaExpression lambda = Expression.Lambda(property, parameter);
+
+            string methodName = isAscending ? "OrderBy" : "OrderByDescending";
+
+            Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
+                                  new Type[] { source.ElementType, property.Type },
+                                  source.Expression, Expression.Quote(lambda));
+
+            return source.Provider.CreateQuery<T>(methodCallExpression);
+        }
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, Dictionary<string,string> sortModels) where T : class
+        {
+            if (sortModels == null || sortModels.Count == 0) return source;
+
+            var expression = source.Expression;
+            int count = 0;
+            foreach (var item in sortModels)
+            {
+                var parameter = Expression.Parameter(typeof(T), "x");
+                var selector = Expression.PropertyOrField(parameter, item.Key);
+                var method = string.Equals(item.Value, "desc", StringComparison.OrdinalIgnoreCase) ?
+                    (count == 0 ? "OrderByDescending" : "ThenByDescending") :
+                    (count == 0 ? "OrderBy" : "ThenBy");
+                expression = Expression.Call(typeof(Queryable), method,
+                    new Type[] { source.ElementType, selector.Type },
+                    expression, Expression.Quote(Expression.Lambda(selector, parameter)));
+                count++;
+            }
+            return count > 0 ? source.Provider.CreateQuery<T>(expression) : source;
         }
     }
 }

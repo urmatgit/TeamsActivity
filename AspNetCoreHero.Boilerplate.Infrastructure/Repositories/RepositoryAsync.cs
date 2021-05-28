@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.Boilerplate.Application.Interfaces.Repositories;
 using AspNetCoreHero.Boilerplate.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +57,25 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
         {
             _dbContext.Entry(entity).CurrentValues.SetValues(entity);
             return Task.CompletedTask;
+        }
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    //_dbContext.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
