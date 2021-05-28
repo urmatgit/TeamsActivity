@@ -41,7 +41,12 @@
         <script src="~/js/site.js"></script>
         <script>
             $(document).ready(function () {
-                $("#productTable1").DataTable({
+                $("#reload").click(() => {
+                    $("#productTable1").DataTable().ajax.reload();
+                    
+                });
+                
+              var table=  $("#productTable1").DataTable({
                     "processing": true,
                     "serverSide": true,
                     "filter": true,
@@ -64,10 +69,17 @@
                         {
                             "render": function (data, type, full, meta) {
                                 console.log(full.id);
-                                return "<a href='#' class='btn btn-danger' onclick='jQueryModalDeleteEx(" + full.id+", this)' >Delete</a>";
+
+                                return "<a href='#' class='btn btn-danger' onclick='jQueryModalDeleteEx(" + full.id + ", this)' >Delete</a>" +
+                                    "<a href='#'  class='btn btn-primary text-white editor_edit' > <i class='fas fa-pencil-alt'>  Edit</a>";
                             }
                         }
                     ]
+                });
+                $("#productTable1").on('click', 'a.editor_edit', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    var url = "/catalog/product/OnGetCreateOrEdit?id=" + data.id;
+                    jQueryModalGet(url, 'Edit Product');
                 });
 
             });
