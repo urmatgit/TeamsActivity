@@ -26,6 +26,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Catalog\Components\" />
     <Folder Include="Areas\Catalog\Data\" />
+    <Folder Include="Areas\Catalog\Views\Brand\MasterDetail\" />
     <Folder Include="Areas\Dashboard\Data\" />
     <Folder Include="Areas\Dashboard\Models\" />
     <Folder Include="Areas\Settings\Data\" />

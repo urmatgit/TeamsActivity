@@ -169,7 +169,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                     var brandViewModel = _mapper.Map<List<BrandViewModel>>(brandsResponse.Data);
                     productViewModel.Brands = new SelectList(brandViewModel, nameof(BrandViewModel.Id), nameof(BrandViewModel.Name), null, null);
                 }
-                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", productViewModel) });
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("ServerSide/_CreateOrEdit", productViewModel) });
             }
             else
             {
@@ -182,7 +182,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
                         var brandViewModel = _mapper.Map<List<BrandViewModel>>(brandsResponse.Data);
                         productViewModel.Brands = new SelectList(brandViewModel, nameof(BrandViewModel.Id), nameof(BrandViewModel.Name), null, null);
                     }
-                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", productViewModel) });
+                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("ServerSide/_CreateOrEditEx", productViewModel) });
                 }
                 return null;
             }
@@ -232,7 +232,7 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             }
             else
             {
-                var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", product);
+                var html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEditEx", product);
                 return new JsonResult(new { isValid = false, html = html });
             }
         }

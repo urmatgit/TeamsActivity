@@ -28,7 +28,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
 
         }
     }
-    public class GetAllProductsWithSortHandler : GetAllProductsQueryBaseHandler<GetAllProductsWithSort>
+    public class GetAllProductsWithSortHandler : GetAllProductsQueryBaseHandler<GetAllProductsWithSort> 
     {
         public GetAllProductsWithSortHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -36,7 +36,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
         }
         protected override ISpecification<Product> GetSpecification(GetAllProductsWithSort t)
         {
-            var spec=new  ProductFilterSpecification(t.SearchString);
+            var spec=new  ProductFilterSpecification(t .SearchString);
             
             return spec;
         }
@@ -45,7 +45,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
             if (string.IsNullOrEmpty(t.SortColumn)) return base.GetSortCollection(t);
             var sortModel = new Dictionary<string, string>
             {
-                { t.SortColumn,t.SortColumnDirection }
+                {t .SortColumn,t.SortColumnDirection }
             };
             return sortModel;
         }

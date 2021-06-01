@@ -56,7 +56,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
                .ToPaginatedListAsync(request.PageNumber, request.PageSize);
             return data;
         }
-        protected virtual ISpecification<Product> GetSpecification(T t)
+        protected virtual ISpecification<Product> GetSpecification (T t)
         {
             return new ProductFilterSpecification();
         }

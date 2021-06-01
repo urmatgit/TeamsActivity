@@ -76,3 +76,7 @@ body {
 .DeleteButton{
     margin-left:10px;
 }
+
+table.dataTable tbody tr.selected {
+    background-color: #B0BED9;
+}

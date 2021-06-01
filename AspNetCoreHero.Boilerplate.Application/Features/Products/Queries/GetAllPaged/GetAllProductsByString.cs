@@ -29,7 +29,7 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
 
         protected override ISpecification<Product> GetSpecification (GetAllProductsByString t)
         {
-            return new ProductFilterSpecification(t.SearchString);
+            return new ProductFilterSpecification( t .SearchString);
         }
     }
 }

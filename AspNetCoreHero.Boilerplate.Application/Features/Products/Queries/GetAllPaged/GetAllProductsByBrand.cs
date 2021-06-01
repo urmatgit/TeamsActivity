@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAllPaged
 {
-    public class GetAllProductsByBrand : GetAllProductsQueryBase
+    public class GetAllProductsByBrand : GetAllProductsWithSort
     {
         public int BrandId { get; set; }
-        public GetAllProductsByBrand(int brandId, int pageNumber, int pageSize) : base(pageNumber, pageSize)
+        public GetAllProductsByBrand(int brandId, int pageNumber, int pageSize, string searchString, string sortColumn, string sortColumnDirection) 
+            : base(pageNumber, pageSize,searchString,sortColumn,sortColumnDirection)
         {
             BrandId = brandId;
         }
@@ -27,9 +28,20 @@ namespace AspNetCoreHero.Boilerplate.Application.Features.Products.Queries.GetAl
 
         }
 
-        protected override ISpecification<Product> GetSpecification (GetAllProductsByBrand t)
+        protected override ISpecification<Product> GetSpecification(GetAllProductsByBrand t)
         {
-            return new ProductFilterSpecification(t.BrandId);
+            var filterSpec= new ProductFilterSpecification( t.SearchString );
+            filterSpec.AddCriteriaAnd(p => p.BrandId == t.BrandId);
+            return filterSpec;
+        }
+        protected override Dictionary<string, string> GetSortCollection(GetAllProductsByBrand t)
+        {
+            if (string.IsNullOrEmpty(t.SortColumn)) return base.GetSortCollection(t);
+            var sortModel = new Dictionary<string, string>
+            {
+                {t .SortColumn,t.SortColumnDirection }
+            };
+            return sortModel;
         }
     }
 }

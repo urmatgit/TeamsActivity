@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = localizer["Brands"];
+    ViewData["Caption"] = localizer["Browser Brands here"];
+}
+@using AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Models
+@model BrandViewModel
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+
+        <a id="reload" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            @localizer["Reload"]
+        </a>
+    </div>
+    <div class="row" >
+        <div class="col-sm-5">
+            <div id="viewBrandAll" class="card-body table-responsive">
+            </div>
+
+        </div>
+        <div class="col-sm-7">
+            @*<a id="reloadProduct" class="btn btn-primary text-white" >
+            <i class="fa fas fa-bolt"></i>
+            @localizer["Reload product"]
+        </a>*@
+            @await Html.PartialAsync("_ViewProduct",Model);
+            @*<div id="viewProduct">
+
+        </div>*@
+        </div>
+    </div>
+ </div>
+    @section Scripts
+{
+        <script src="~/js/site.js"></script>
+        
+        <script>
+            $(document).ready(function () {
+               var tableBrand= $("#brandTable").DataTable({
+                   "columnDefs": [
+                       {
+                           "targets": [0],
+                           "visible": false,
+                           "searchable": false
+                       }
+                   ]
+                });
+                loadData();
+                $('#reload').on('click', function () {
+                    loadData();
+                });
+                
+            });
+            function loadData() {
+                $('#viewBrandAll').load('/catalog/brandMD/LoadBrandAll');
+            }
+        </script>
+        <script src="~/js/ProductServerSide.js"></script>
+    }
