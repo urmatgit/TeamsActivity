@@ -26,6 +26,7 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Repositories
             await _repository.DeleteAsync(brand);
             await _distributedCache.RemoveAsync(CacheKeys.BrandCacheKeys.ListKey);
             await _distributedCache.RemoveAsync(CacheKeys.BrandCacheKeys.GetKey(brand.Id));
+            //
         }
 
         public async Task<Brand> GetByIdAsync(int brandId)
