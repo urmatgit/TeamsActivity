@@ -88,7 +88,9 @@ namespace AspNetCoreHero.Boilerplate.Infrastructure.Identity.Services
                 new Claim("first_name", user.FirstName),
                 new Claim("last_name", user.LastName),
                 new Claim("full_name", $"{user.FirstName} {user.LastName}"),
-                new Claim("ip", ipAddress)
+                new Claim("ip", ipAddress),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             }
             .Union(userClaims)
             .Union(roleClaims);

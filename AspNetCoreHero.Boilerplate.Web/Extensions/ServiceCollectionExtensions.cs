@@ -79,12 +79,14 @@ namespace AspNetCoreHero.Boilerplate.Web.Extensions
             else
             {
                 //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-                services.AddDbContext<AuditableIdentityContextEx>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection")));
+                //services.AddDbContext<AuditableIdentityContextEx>(options => options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection")));
+                services.AddDbContext<AuditableIdentityContextEx>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
             }
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireNonAlphanumeric = false;
+                
             }).AddEntityFrameworkStores<AuditableIdentityContextEx>().AddDefaultUI().AddDefaultTokenProviders();
         }
 
