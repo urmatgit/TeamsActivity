@@ -22,11 +22,11 @@
                 }
             },
         },
-        "columnDefs": [{
-            "targets": [0],
-            "visible": false,
-            "searchable": false
-        }],
+        //"columnDefs": [{
+        //    "targets": [0],
+        //    "visible": false,
+        //    "searchable": false
+        //}],
         "columns": [
             { "data": "name", "name": "Name", "autoWidth": true },
             { "data": "barcode", "name": "Barcode", "autoWidth": true },
