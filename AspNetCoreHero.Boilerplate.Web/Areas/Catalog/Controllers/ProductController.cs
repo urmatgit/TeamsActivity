@@ -34,8 +34,8 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             //var model = new ProductViewModel();
             return View("IndexEx");
         }
-        [Authorize(Policy = Permissions.Products.View)]
-        [HttpPost]
+        //[Authorize(Policy = Permissions.Products.View)]
+        //[HttpPost]
         public async Task<IActionResult> GetProduct()
         {
             try

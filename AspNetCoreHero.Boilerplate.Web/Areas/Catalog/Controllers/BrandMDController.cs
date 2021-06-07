@@ -32,8 +32,8 @@ namespace AspNetCoreHero.Boilerplate.Web.Areas.Catalog.Controllers
             }
             return null;
         }
-        [Authorize(Policy = Permissions.Products.View)]
-        [HttpPost]
+        //[Authorize(Policy = Permissions.Products.View)]
+        //[HttpPost]
         public async Task<IActionResult> GetProduct(int brandId)
         {
             try
