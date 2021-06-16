@@ -85,7 +85,7 @@
             try {
                 $.ajax({
                     type: 'POST',
-                    url: "/catalog/product/OnPostDeleteEx/" + id1,
+                    url: "/catalog/productex/OnPostDelete/" + id1,
                     
                     
                     processData: false,
